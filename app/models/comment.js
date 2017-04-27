@@ -3,25 +3,27 @@ function CommentModel(model) {
     toJSON: (comment) => {
 
       return {
-        id: comment._id,
-        type: 'comments',
-        attributes: {
-          text: comment.url,
-          'created-at': comment.createdAt,
-          user: comment.user
-        },
-        relationships: {
-          story: {
-            data: {
-              id: comment.story.id,
-              type: 'stories'
+        data: {
+          attributes: {
+            'created-at': comment.createdAt,
+            text: comment.text,
+            user: comment.user || null
+          },
+          id: comment._id,
+          relationships: {
+            users: {
+              data: comment.user
+            },
+            stories: {
+              data: comment.stories
             }
-          }
+          },
+          type: 'stories'
         }
       };
     }
   };
-  return model('StoryModel', methods);
+  return model('CommentModel', methods);
 }
 
 module.exports = CommentModel;

@@ -2,7 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { ObjectId } = require('mongodb');
-const { Story, Comment, User } = require('../models');
+const { Story, Comments, User } = require('../models');
 
 
 const router = express.Router();
@@ -40,32 +40,32 @@ router.post('/stories', (req, res) => {
 });
 
 router.post('/comments', (req, res) => {
-  Story.findById(req.body.relationships.story.data.id)
-    .then((story) => {
-      if (story.comments) {
-        story.comments.push({
-          text: req.body.attributes.text,
-          user: req.body.attributes.user
+  const comment = {
+    _id: new ObjectId(),
+    text: req.body.attributes.text,
+    user: req.body.attributes.user
+  };
+  Comments.create(comment)
+    .then(() => {
+      Story.findById(req.body.relationships.story.data.id)
+        .then((story) => {
+          if (story.comments) {
+            story.comments.push(comment);
+          } else {
+            story.comments = [comment];
+          }
+          Story.updateById(req.body.relationships.story.data.id, story)
+          .then(() => {
+            res.status(200).json({});
+          });
         });
-      } else {
-        story.comments = [{
-          _id: Comment.toObjectId(crypto.randomBytes(24).toString('hex')),
-          text: req.body.attributes.text,
-          user: req.body.attributes.user
-        }];
-      }
-      Comment.create(story.comments[0]);
-      Story.updateById(req.body.relationships.story.data.id, story)
-      .then(() => {
-        res.status(200).json({});
-      });
     });
 });
 
 router.get('/comments/:id', (req, res) => {
-  Comment.findById(req.params.id)
+  Comments.findById(req.params.id)
   .then((comment) => {
-    res.json(Comment.toJSON(comment));
+    res.json(Comments.toJSON(comment));
   });
 });
 

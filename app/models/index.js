@@ -22,6 +22,6 @@ module.exports = {
   Model,
 
   Story: StoryModel(Model),
-  Comment: CommentModel(Model),
+  Comments: CommentModel(Model),
   User: UserModel(Model)
 };
