@@ -1,0 +1,33 @@
+@require 'utils/media-queries';
+
+body {
+  font-family: sans-serif;
+  font-size: 1.1em;
+}
+
+code {
+  word-wrap: break-word;
+}
+
+.app {
+  text-align: center;
+  padding: 50px;
+}
+
+.logo {
+  margin-bottom: 50px;
+}
+
+.readme {
+  text-align: left;
+  padding: 20px 40px;
+  background-color: rgb(245, 245, 245);
+  border-radius: 3px;
+}
+
+@media m {
+  body { font-size: 0.9em; }
+  .app { padding: 25px; }
+  .logo { margin: 10px 0 30px 0; }
+  .readme { padding: 5px 20px; }
+}

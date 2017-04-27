@@ -1,0 +1,97 @@
+/* Phones + Tablets */
+m  = "(max-width: 768px)"; /* all m breakpoints */
+m1 = "(max-width: 320px)";
+m2 = "(min-width: 321px) and (max-width: 375px)";
+m3 = "(min-width: 376px) and (max-width: 425px)";
+m4 = "(min-width: 426px) and (max-width: 768px)";
+
+/* Laptops + Dekstops */
+l  = "(min-width: 769px) and (max-width: 1440px)"; /* all l breakpoints */
+l1 = "(min-width: 769px) and (max-width: 1024px)";
+l2 = "(min-width: 1025px) and (max-width: 1440px)";
+
+/* Larger Screens */
+s  = "(min-width: 1441px)"; /* all s breakpoints */
+s1 = "(min-width: 1441px) and (max-width: 2560px)";
+s2 = "(min-width: 2561px)";
+
+
+/*=================================
+ * Device specific media queries
+ *=================================*/
+
+/* iPhone */
+iphone-4 = "only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)";
+iphone-4-p = "only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)";
+iphone-4-l = "only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape)";
+
+iphone-se   = "only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2)";
+iphone-se-p = "only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)";
+iphone-se-l = "only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape)";
+
+iphone-6 = "only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)";
+iphone-6-p = "only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)";
+iphone-6-l = "only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape)";
+
+iphone-6p = "only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3)";
+iphone-6p-p = "only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait)";
+iphone-6p-l = "only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape)";
+
+/* Galaxy Phones */
+galaxy-s3 = "screen and (device-width: 320px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 2)";
+galaxy-s3-p = "screen and (device-width: 320px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)";
+galaxy-s3-l = "screen and (device-width: 320px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)";
+
+galaxy-s4 = "screen and (device-width: 320px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3)";
+galaxy-s4-p = "screen and (device-width: 320px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)";
+galaxy-s4-l = "screen and (device-width: 320px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)";
+
+galaxy-s5 = "screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3)";
+galaxy-s5-p = "screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)";
+galaxy-s5-l = "screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)";
+
+/* HTC One */
+htc-one = "screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3)";
+htc-one-p = "screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)";
+htc-one-l = "screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)";
+
+/* iPad Mini */
+ipad-mini = "only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1)";
+ipad-mini-p = "only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 1)";
+ipad-mini-l = "only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1)";
+
+/* iPad 1, iPad2 */
+ipad = "only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1)";
+ipad-p = "only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 1)";
+ipad-l = "only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1)";
+
+/* iPad 3, iPad 4 */
+ipad-air = "only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2)";
+ipad-air-p = "only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2)";
+ipad-air-l = "only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2)";
+
+/* Galaxy Tab 10.1 */
+galaxy-tab = "(min-device-width: 800px) and (max-device-width: 1280px)";
+galaxy-tab-p = "(max-device-width: 800px) and (orientation: portrait)";
+galaxy-tab-l = "(max-device-width: 1280px) and (orientation: landscape)";
+
+/* Asus Nexus 7 */
+nexus-7 = "screen and (device-width: 601px) and (device-height: 906px) and (-webkit-min-device-pixel-ratio: 1.331) and (-webkit-max-device-pixel-ratio: 1.332)";
+nexus-7-p = "screen and (device-width: 601px) and (device-height: 906px) and (-webkit-min-device-pixel-ratio: 1.331) and (-webkit-max-device-pixel-ratio: 1.332) and (orientation: portrait)";
+nexus-7-l = "screen and (device-width: 601px) and (device-height: 906px) and (-webkit-min-device-pixel-ratio: 1.331) and (-webkit-max-device-pixel-ratio: 1.332) and (orientation: landscape)";
+
+/* Kindle Fire HD 7" */
+kindle-7 = "only screen and (min-device-width: 800px) and (max-device-width: 1280px) and (-webkit-min-device-pixel-ratio: 1.5)";
+kindle-7-p = "only screen and (min-device-width: 800px) and (max-device-width: 1280px) and (-webkit-min-device-pixel-ratio: 1.5) and (orientation: portrait)";
+kindle-7-l = "only screen and (min-device-width: 800px) and (max-device-width: 1280px) and (-webkit-min-device-pixel-ratio: 1.5) and (orientation: landscape)";
+
+/* Kindle Fire HD 8.9" */
+kindle-89 = "only screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 1.5)";
+kindle-89-p = "only screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 1.5) and (orientation: portrait)";
+kindle-89-l = "only screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 1.5) and (orientation: landscape)";
+
+/* Apple Watch */
+apple-watch = "(max-device-width: 42mm) and (min-device-width: 38mm)";
+
+/* Moto 360 Watch */
+moto-360 = "(max-device-width: 218px) and (max-device-height: 281px)";
