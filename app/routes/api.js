@@ -3,23 +3,29 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { ObjectId } = require('mongodb');
 const { Story, Comments, User } = require('../models');
-
-
 const router = express.Router();
 
 router.get('/stories', (req, res) => {
   Story.find({}, { sort: { createdAt: -1 } })
   .then((stories) => {
     const data = stories.map((r) => Story.toJSON(r));
-    res.json({ data });
+    if (data) {
+      res.json({ data });
+    } else {
+      res.status(404).send('Not found!');
+    }
   });
 });
 
 router.get('/stories/:id', (req, res) => {
   Story.findById(req.params.id)
-  .then((story) => {
-    res.json(Story.toJSON(story));
-  });
+    .then((story) => {
+      if (story) {
+        res.json(Story.toJSON(story));
+      } else {
+        res.status(404).send('Not found');
+      }
+    });
 });
 
 router.post('/stories', (req, res) => {
@@ -30,13 +36,15 @@ router.post('/stories', (req, res) => {
     user: req.body.attributes.user,
     votes: 0
   };
-  Story.create(storyData)
-    // .then(() => Story.find({}, { sort: { createdAt: 1 } }))
-    .then(() => {
-    //     requests
-    //   const data = requests.map((r) => Request.toJSON(r));
-      res.status(202).json({});
-    });
+  if (storyData.url !== null &&
+      storyData.title !== null &&
+      storyData.user !== null &&
+      storyData.votes !== null) {
+    Story.create(storyData)
+      .then(() => {
+        res.status(202).json({});
+      });
+  }
 });
 
 router.post('/comments', (req, res) => {
@@ -65,7 +73,11 @@ router.post('/comments', (req, res) => {
 router.get('/comments/:id', (req, res) => {
   Comments.findById(req.params.id)
   .then((comment) => {
-    res.json(Comments.toJSON(comment));
+    if (comment) {
+      res.json(Comments.toJSON(comment));
+    } else {
+      res.status(404).send('Not Found!');
+    }
   });
 });
 
@@ -78,7 +90,6 @@ router.post('/users/', (req, res) => {
     res.status(400).send('Password Required');
     return;
   }
-
   const salt = crypto.randomBytes(48).toString('hex');
   const hash = crypto.pbkdf2Sync(
     req.body.attributes.password,
@@ -110,24 +121,27 @@ router.post('/users/authenticate', (req, res) => {
   }
   User.findOne({ user: req.body.attributes.user })
   .then((user) => {
+    if (user) {
+      const hash = crypto.pbkdf2Sync(
+      req.body.attributes.password,
+      user.salt,
+      100000,
+      512,
+      'sha512').toString('hex');
 
-    const hash = crypto.pbkdf2Sync(
-    req.body.attributes.password,
-    user.salt,
-    100000,
-    512,
-    'sha512').toString('hex');
-
-    User.count({ user: req.body.attributes.user, hash: hash })
-    .then((c) => {
-      if (c === 1) {
-        const token = jwt.sign({
-          user: req.body.attributes.user }, process.env.JWT_SECRET);
-        res.status(200).json(token);
-      } else {
-        res.status(401).send('Invalid Login');
-      }
-    });
+      User.count({ user: req.body.attributes.user, hash: hash })
+      .then((c) => {
+        if (c === 1) {
+          const token = jwt.sign({
+            user: req.body.attributes.user }, process.env.JWT_SECRET);
+          res.status(200).json(token);
+        } else {
+          res.status(401).send('Invalid Login');
+        }
+      });
+    } else {
+      res.status(401).send('Invalid Login');
+    }
   });
 
 });

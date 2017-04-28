@@ -1,7 +1,6 @@
 function StoryModel(model) {
   const methods = {
     toJSON: (story) => {
-
       return {
         data: {
           attributes: {
