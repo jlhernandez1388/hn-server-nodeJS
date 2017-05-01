@@ -55,19 +55,23 @@ router.post('/comments', (req, res) => {
   };
   Comments.create(comment)
     .then(() => {
-      Story.findById(req.body.relationships.story.data.id)
-        .then((story) => {
-          if (story.comments) {
-            story.comments.push(comment);
-          } else {
-            story.comments = [comment];
-          }
-          Story.updateById(req.body.relationships.story.data.id, story)
-          .then(() => {
-            res.status(200).json({});
-          });
-        });
+      return Story.findById(req.body.relationships.story.data.id);
+    })
+    .then((story) => {
+      if (story.comments) {
+        story.comments.push(comment);
+      } else {
+        story.comments = [comment];
+      }
+      return story;
+    })
+    .then((story) => {
+      return Story.updateById(req.body.relationships.story.data.id, story);
+    })
+    .then(() => {
+      res.status(200).json({});
     });
+
 });
 
 router.get('/comments/:id', (req, res) => {
