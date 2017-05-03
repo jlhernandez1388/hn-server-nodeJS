@@ -1,6 +1,5 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
+const { generateSalt, generateHash, verify } = require('../utils/password');
 const { ObjectId } = require('mongodb');
 const { Story, Comments, User } = require('../models');
 const router = express.Router();
@@ -28,6 +27,17 @@ router.get('/stories/:id', (req, res) => {
     });
 });
 
+router.patch('/stories/:id', (req, res) => {
+  Story.findById(req.params.id)
+    .then((story) => {
+      if (story) {
+        res.json(Story.toJSON(story));
+      } else {
+        res.status(404).send('Not found');
+      }
+    });
+});
+
 router.post('/stories', (req, res) => {
   const storyData = {
     url: req.body.attributes.url,
@@ -38,8 +48,7 @@ router.post('/stories', (req, res) => {
   };
   if (storyData.url !== null &&
       storyData.title !== null &&
-      storyData.user !== null &&
-      storyData.votes !== null) {
+      storyData.user !== null) {
     Story.create(storyData)
       .then(() => {
         res.status(202).json({});
@@ -55,18 +64,21 @@ router.post('/comments', (req, res) => {
   };
   Comments.create(comment)
     .then(() => {
-      Story.findById(req.body.relationships.story.data.id)
-        .then((story) => {
-          if (story.comments) {
-            story.comments.push(comment);
-          } else {
-            story.comments = [comment];
-          }
-          Story.updateById(req.body.relationships.story.data.id, story)
-          .then(() => {
-            res.status(200).json({});
-          });
-        });
+      return Story.findById(req.body.relationships.story.data.id)
+    })
+    .then((story) => {
+      if (story.comments) {
+        story.comments.push(comment);
+      } else {
+        story.comments = [comment];
+      }
+      return story;
+    })
+    .then((story) => {
+      return Story.updateById(req.body.relationships.story.data.id, story)
+    })
+    .then(() => {
+      res.status(200).json({});
     });
 });
 
@@ -81,7 +93,7 @@ router.get('/comments/:id', (req, res) => {
   });
 });
 
-router.post('/users/', (req, res) => {
+router.post('/users', (req, res) => {
   if (!req.body.attributes.user) {
     res.status(400).send('User Required');
     return;
@@ -90,17 +102,11 @@ router.post('/users/', (req, res) => {
     res.status(400).send('Password Required');
     return;
   }
-  const salt = crypto.randomBytes(48).toString('hex');
-  const hash = crypto.pbkdf2Sync(
-    req.body.attributes.password,
-    salt,
-    100000,
-    512,
-    'sha512').toString('hex');
+  const salt = generateSalt();
 
   const userData = {
     user: req.body.attributes.user,
-    hash: hash,
+    hash: generateHash(req.body.attributes.password, salt),
     salt: salt
   };
 
@@ -119,31 +125,18 @@ router.post('/users/authenticate', (req, res) => {
     res.status(400).send('Password Required');
     return;
   }
-  User.findOne({ user: req.body.attributes.user })
-  .then((user) => {
-    if (user) {
-      const hash = crypto.pbkdf2Sync(
-      req.body.attributes.password,
-      user.salt,
-      100000,
-      512,
-      'sha512').toString('hex');
 
-      User.count({ user: req.body.attributes.user, hash: hash })
-      .then((c) => {
-        if (c === 1) {
-          const token = jwt.sign({
-            user: req.body.attributes.user }, process.env.JWT_SECRET);
-          res.status(200).json(token);
-        } else {
-          res.status(401).send('Invalid Login');
-        }
-      });
+  verify(req.body.attributes.user,
+  req.body.attributes.password, function(token) {
+
+    console.log('Test - ' + token);
+    if (token) {
+      res.status(200).json(token);
     } else {
       res.status(401).send('Invalid Login');
     }
-  });
 
+  });
 });
 
 module.exports = router;
