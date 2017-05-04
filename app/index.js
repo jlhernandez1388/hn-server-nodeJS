@@ -40,7 +40,7 @@ server.use('/public', express.static(
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(expressJWT({ secret: process.env.JWT_SECRET })
-  .unless({ path: ['/api/v1/users', '/api/v1/users/authenticate'] }));
+  .unless({ path: ['/', '/api/v1/users', '/api/v1/users/authenticate'] }));
 
 // views engine
 server.engine('.hbs', exphbs({
