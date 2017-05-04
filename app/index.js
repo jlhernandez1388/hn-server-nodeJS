@@ -14,7 +14,7 @@ const { expressLogger } = require('./utils/logging');
 const helpers = require('./views/helpers');
 const mainRouter = require('./routes/index');
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 80;
 const server = express();
 
 // Logger
