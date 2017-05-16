@@ -18,7 +18,7 @@ function CommentModel(model) {
               data: comment.stories
             }
           },
-          type: 'stories'
+          type: 'comments'
         }
       };
     }
