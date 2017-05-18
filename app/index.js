@@ -39,7 +39,8 @@ server.use('/public', express.static(
 
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
-server.use(expressJWT({ secret: process.env.JWT_SECRET })
+server.use(expressJWT({ secret: (process.env.JWT_SECRET ||
+  'zxfar[w]fhidPe8vJWJfMKt{kDB7eoBnuxCP6CNbGyXfguMDfR{H4fVz8PurYH=V') })
   .unless({ path: ['/', '/api/v1/users', '/api/v1/users/authenticate'] }));
 
 // views engine
@@ -64,3 +65,5 @@ server.listen(port, (error) => {
     console.log(`Express app started on http://0.0.0.0:${port}`);
   }
 });
+
+module.exports = server;
